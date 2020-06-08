@@ -1,25 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Box, Flex } from 'theme-ui';
+import { UsersState } from './store/reducers/usersReducer';
 
-function App() {
+import Users from './components/Users/Users';
+
+import { styles } from './AppStyle';
+
+const App: React.FC = () => {
+  const users = useSelector<UsersState, UsersState['users']>((state) => state.users);
+  let updatedUsers = users.flat();
+
+  useEffect(() => { //componentDidMount
+    
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <>
+      <Box
+          p={2}
+          color='white'
+          sx={styles.Header}>
+        Redux-Saga and TypeScript example
+      </Box>
+      <Flex>
+        <Box sx={styles.App}>
+          {updatedUsers.map(res => {
+            return <Users 
+              key={res.id} 
+              email={res.email} 
+              id={res.id} 
+              name={res.name} 
+              phone={res.phone} 
+              userName={res.username}/>
+          })}
+        </Box>
+      </Flex>
+      </>
   );
 }
 
